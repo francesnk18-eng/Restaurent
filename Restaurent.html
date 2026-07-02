@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restaurant Order Page</title>
+  <!-- Link external CSS -->
+  <link rel="stylesheet" href="Restaurent.css">
+</head>
+<body>
+
+  <header>Welcome to Our Restaurant</header>
+
+  <!-- Food Menu -->
+  <section class="menu">
+    <div class="card">
+      <h3>Burger - ₹120</h3>
+      <input type="checkbox" id="burger" value="120"> Select
+      <br>
+      Qty: <input type="number" id="burgerQty" min="1" value="1">
+    </div>
+    <div class="card">
+      <h3>Pizza - ₹250</h3>
+      <input type="checkbox" id="pizza" value="250"> Select
+      <br>
+      Qty: <input type="number" id="pizzaQty" min="1" value="1">
+    </div>
+    <div class="card">
+      <h3>Sandwich - ₹90</h3>
+      <input type="checkbox" id="sandwich" value="90"> Select
+      <br>
+      Qty: <input type="number" id="sandwichQty" min="1" value="1">
+    </div>
+    <div class="card">
+      <h3>Fries - ₹80</h3>
+      <input type="checkbox" id="fries" value="80"> Select
+      <br>
+      Qty: <input type="number" id="friesQty" min="1" value="1">
+    </div>
+    <div class="card">
+      <h3>Juice - ₹60</h3>
+      <input type="checkbox" id="juice" value="60"> Select
+      <br>
+      Qty: <input type="number" id="juiceQty" min="1" value="1">
+    </div>
+  </section>
+
+  <!-- Customer Details -->
+  <form id="customerForm">
+    <h2>Customer Details</h2>
+    <input type="text" id="name" placeholder="Name" required>
+    <input type="text" id="mobile" placeholder="Mobile Number" required>
+    <textarea id="address" placeholder="Address" required></textarea>
+    <button type="button" onclick="placeOrder()">Place Order</button>
+  </form>
+
+  <!-- Order Summary -->
+  <div class="summary" id="orderSummary"></div>
+
+  <script>
+    function placeOrder() {
+      let name = document.getElementById("name").value.trim();
+      let mobile = document.getElementById("mobile").value.trim();
+      let address = document.getElementById("address").value.trim();
+
+      if (name === "" || mobile === "" || address === "") {
+        alert("Please fill in all customer details.");
+        return;
+      }
+
+      let items = [
+        {id: "burger", qtyId: "burgerQty", name: "Burger"},
+        {id: "pizza", qtyId: "pizzaQty", name: "Pizza"},
+        {id: "sandwich", qtyId: "sandwichQty", name: "Sandwich"},
+        {id: "fries", qtyId: "friesQty", name: "Fries"},
+        {id: "juice", qtyId: "juiceQty", name: "Juice"}
+      ];
+
+      let summary = "Customer: " + name + "<br>";
+      let grandTotal = 0;
+
+      items.forEach(item => {
+        let checkbox = document.getElementById(item.id);
+        if (checkbox.checked) {
+          let price = parseInt(checkbox.value);
+          let qty = parseInt(document.getElementById(item.qtyId).value);
+          let subtotal = price * qty;
+          grandTotal += subtotal;
+          summary += item.name + " x" + qty + " = " + subtotal + "<br>";
+        }
+      });
+
+      summary += "----------------------<br>";
+      summary += "Grand Total = ₹" + grandTotal + "<br>";
+      summary += "<b>Thank You for Ordering!</b>";
+
+      document.getElementById("orderSummary").innerHTML = summary;
+    }
+  </script>
+
+</body>
+</html>
